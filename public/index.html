@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Varian Music</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+  <style>
+    body {
+      background-color: #0f0f1a;
+      color: white;
+      padding-bottom: 80px;
+      font-family: system-ui, sans-serif;
+    }
+
+    .navbar {
+      background: #121224;
+    }
+
+    .song-card {
+      background: #1e1e2f;
+      border-radius: 15px;
+      overflow: hidden;
+      text-decoration: none;
+      color: white;
+      display: block;
+      transition: transform 0.15s ease;
+    }
+
+    .song-card:hover {
+      transform: scale(1.02);
+    }
+
+    .thumbnail-container {
+      position: relative;
+      width: 100%;
+      height: 150px;
+      overflow: hidden;
+    }
+
+    .thumbnail-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .genre-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(13,110,253,0.9);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #121224;
+      border-top: 1px solid #2a2a40;
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0;
+      z-index: 1000;
+    }
+
+    .bottom-nav a {
+      color: #bbb;
+      text-decoration: none;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    .bottom-nav a.active,
+    .bottom-nav a:hover {
+      color: white;
+    }
+
+    .bottom-nav i {
+      display: block;
+      font-size: 1.4rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar superior -->
+  <nav class="navbar navbar-dark fixed-top">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">🎧 Varian</span>
+    </div>
+  </nav>
+
+  <!-- Contenido -->
+  <div class="container pt-5 mt-3">
+    <h6 class="text-secondary text-uppercase small mb-3">
+      Tu Biblioteca
+    </h6>
+
+    <div id="listaMusica" class="row g-3">
+      <p class="text-center">Cargando canciones...</p>
+    </div>
+  </div>
+
+  <!-- Navbar inferior tipo app -->
+  <div class="bottom-nav">
+    <a href="index.html" class="active">
+      <i class="bi bi-house"></i>
+      Inicio
+    </a>
+    <a href="#">
+      <i class="bi bi-heart"></i>
+      Favoritos
+    </a>
+    <a href="#">
+      <i class="bi bi-person"></i>
+      Perfil
+    </a>
+  </div>
+
+  <!-- Script canciones -->
+  <script type="module" src="../assets/js/songs.js"></script>
+
+</body>
+</html>
