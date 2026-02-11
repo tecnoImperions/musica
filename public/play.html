@@ -493,14 +493,14 @@
       <i class="bi bi-chevron-left"></i>
     </button>
     <div class="nav-actions">
-      <button class="nav-btn" title="Compartir">
+      <button class="nav-btn" id="shareBtn" title="Compartir">
         <i class="bi bi-share-fill"></i>
       </button>
-      <button class="nav-btn" title="Agregar a favoritos">
+      <button class="nav-btn" id="favoriteBtn" title="Agregar a favoritos">
         <i class="bi bi-heart"></i>
       </button>
-      <button class="nav-btn" title="Más opciones">
-        <i class="bi bi-three-dots-vertical"></i>
+      <button class="nav-btn" id="likeBtn" title="Me gusta">
+        <i class="bi bi-hand-thumbs-up"></i>
       </button>
     </div>
   </nav>
@@ -595,10 +595,24 @@
 
   <script type="module">
     import { supabase } from "../assets/js/supabase.js";
+    import { getUser } from "../assets/js/auth.js";
+    import { 
+      addToFavorites, 
+      removeFromFavorites, 
+      isFavorite,
+      likeSong,
+      unlikeSong,
+      hasLiked,
+      addToHistory,
+      registerView 
+    } from "../assets/js/metrics.js";
 
     const params = new URLSearchParams(window.location.search);
     const songId = params.get("id");
     const initialMode = params.get("mode") || "audio";
+    
+    let isFav = false;
+    let isLiked = false;
 
     // Elements
     const loading = document.getElementById("loading");
@@ -662,12 +676,121 @@
         // Load initial mode
         switchMode(currentMode);
         
+        // Registrar vista y agregar al historial
+        registerView(songId);
+        const user = await getUser();
+        if (user) {
+          addToHistory(songId);
+          
+          // Verificar estado de favorito y like
+          isFav = await isFavorite(songId);
+          isLiked = await hasLiked(songId);
+          
+          updateFavoriteButton();
+          updateLikeButton();
+        }
+        
         loading.classList.add('hidden');
       } catch (err) {
         console.error(err);
         alert("Error cargando la canción");
       }
     }
+
+    // Update favorite button UI
+    function updateFavoriteButton() {
+      const favoriteBtn = document.getElementById('favoriteBtn');
+      const icon = favoriteBtn.querySelector('i');
+      
+      if (isFav) {
+        icon.className = 'bi bi-heart-fill';
+        favoriteBtn.style.color = '#ef4444';
+      } else {
+        icon.className = 'bi bi-heart';
+        favoriteBtn.style.color = '';
+      }
+    }
+
+    // Update like button UI
+    function updateLikeButton() {
+      const likeBtn = document.getElementById('likeBtn');
+      const icon = likeBtn.querySelector('i');
+      
+      if (isLiked) {
+        icon.className = 'bi bi-hand-thumbs-up-fill';
+        likeBtn.style.color = '#6366f1';
+      } else {
+        icon.className = 'bi bi-hand-thumbs-up';
+        likeBtn.style.color = '';
+      }
+    }
+
+    // Favorite button handler
+    document.getElementById('favoriteBtn')?.addEventListener('click', async () => {
+      const user = await getUser();
+      if (!user) {
+        alert('Debes iniciar sesión para agregar favoritos');
+        return;
+      }
+
+      try {
+        if (isFav) {
+          await removeFromFavorites(songId);
+          isFav = false;
+        } else {
+          await addToFavorites(songId);
+          isFav = true;
+        }
+        updateFavoriteButton();
+      } catch (error) {
+        console.error('Error al actualizar favoritos:', error);
+        alert('Error al actualizar favoritos');
+      }
+    });
+
+    // Like button handler
+    document.getElementById('likeBtn')?.addEventListener('click', async () => {
+      const user = await getUser();
+      if (!user) {
+        alert('Debes iniciar sesión para dar like');
+        return;
+      }
+
+      try {
+        if (isLiked) {
+          await unlikeSong(songId);
+          isLiked = false;
+        } else {
+          await likeSong(songId);
+          isLiked = true;
+        }
+        updateLikeButton();
+      } catch (error) {
+        console.error('Error al actualizar like:', error);
+        alert('Error al actualizar like');
+      }
+    });
+
+    // Share button handler
+    document.getElementById('shareBtn')?.addEventListener('click', async () => {
+      const shareData = {
+        title: songData?.titulo || 'Varian Music',
+        text: `Escucha "${songData?.titulo}" de ${songData?.artista} en Varian Music`,
+        url: window.location.href,
+      };
+
+      try {
+        if (navigator.share) {
+          await navigator.share(shareData);
+        } else {
+          // Fallback: copiar al portapapeles
+          await navigator.clipboard.writeText(window.location.href);
+          alert('Enlace copiado al portapapeles');
+        }
+      } catch (error) {
+        console.error('Error al compartir:', error);
+      }
+    });
 
     // Switch between audio and video
     function switchMode(mode) {
