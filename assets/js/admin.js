@@ -5,14 +5,14 @@ const btn = document.getElementById("agregarCancion");
 
 btn.onclick = async () => {
   const titulo = document.getElementById("titulo").value.trim();
-  const artista = document.getElementById("artista").value.trim();
+  const artistaNombre = document.getElementById("artista").value.trim();
   const genero = document.getElementById("genero").value.trim();
 
   const coverFile = document.getElementById("cover").files[0];
   const audioFile = document.getElementById("audio").files[0];
-  const videoFile = document.getElementById("video")?.files[0]; // opcional
+  const videoFile = document.getElementById("video")?.files[0];
 
-  if (!titulo || !artista || !coverFile || !audioFile) {
+  if (!titulo || !artistaNombre || !coverFile || !audioFile) {
     Swal.fire({
       icon: "warning",
       title: "Campos incompletos",
@@ -29,7 +29,37 @@ btn.onclick = async () => {
       didOpen: () => Swal.showLoading()
     });
 
-    // Subidas
+    // =========================
+    // 1️⃣ BUSCAR SI EL ARTISTA YA EXISTE
+    // =========================
+    let { data: artistaExistente } = await supabase
+      .from("artists")
+      .select("id")
+      .ilike("name", artistaNombre)
+      .single();
+
+    let artist_id;
+
+    if (artistaExistente) {
+      artist_id = artistaExistente.id;
+    } else {
+      // =========================
+      // 2️⃣ CREAR NUEVO ARTISTA
+      // =========================
+      const { data: nuevoArtista, error: errorArtista } = await supabase
+        .from("artists")
+        .insert([{ name: artistaNombre }])
+        .select()
+        .single();
+
+      if (errorArtista) throw errorArtista;
+
+      artist_id = nuevoArtista.id;
+    }
+
+    // =========================
+    // 3️⃣ SUBIR ARCHIVOS A CLOUDINARY
+    // =========================
     const thumbnail_url = await uploadFile(coverFile);
     const audio_url = await uploadFile(audioFile);
 
@@ -38,33 +68,39 @@ btn.onclick = async () => {
       video_url = await uploadFile(videoFile);
     }
 
-    const { error } = await supabase.from("songs").insert([
-      {
-        titulo,
-        artista,
-        genero,
-        audio_url,
-        video_url,
-        thumbnail_url
-      }
-    ]);
+    // =========================
+    // 4️⃣ INSERTAR CANCIÓN
+    // =========================
+    const songData = {
+      titulo,
+      genero,
+      audio_url,
+      thumbnail_url,
+      artist_id
+    };
 
-    if (error) throw error;
+    if (video_url) {
+      songData.video_url = video_url;
+    }
+
+    const { error: errorSong } = await supabase
+      .from("songs")
+      .insert([songData]);
+
+    if (errorSong) throw errorSong;
 
     Swal.fire({
       icon: "success",
-      title: "¡Contenido subido!",
-      text: video_url
-        ? "Canción y video guardados correctamente"
-        : "Canción guardada correctamente"
+      title: "¡Contenido subido correctamente!",
     }).then(() => location.reload());
 
   } catch (err) {
-    console.error(err);
+    console.error("ERROR REAL:", err);
+
     Swal.fire({
       icon: "error",
       title: "Error",
-      text: "No se pudo subir el contenido"
+      text: err.message || "No se pudo subir el contenido"
     });
   }
 };
