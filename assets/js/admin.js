@@ -30,6 +30,7 @@ btn.onclick = async () => {
     });
 
     // =========================
+<<<<<<< HEAD
     // 1️⃣ BUSCAR ARTISTA
     // =========================
     const { data: artistaExistente, error: errorBusqueda } = await supabase
@@ -39,6 +40,15 @@ btn.onclick = async () => {
       .maybeSingle(); // 👈 IMPORTANTE (no rompe si no existe)
 
     if (errorBusqueda) throw errorBusqueda;
+=======
+    // 1️⃣ BUSCAR SI EL ARTISTA YA EXISTE
+    // =========================
+    let { data: artistaExistente } = await supabase
+      .from("artists")
+      .select("id")
+      .ilike("name", artistaNombre)
+      .single();
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
 
     let artist_id;
 
@@ -46,11 +56,19 @@ btn.onclick = async () => {
       artist_id = artistaExistente.id;
     } else {
       // =========================
+<<<<<<< HEAD
       // 2️⃣ CREAR ARTISTA NUEVO
       // =========================
       const { data: nuevoArtista, error: errorArtista } = await supabase
         .from("artists")
         .insert({ name: artistaNombre })
+=======
+      // 2️⃣ CREAR NUEVO ARTISTA
+      // =========================
+      const { data: nuevoArtista, error: errorArtista } = await supabase
+        .from("artists")
+        .insert([{ name: artistaNombre }])
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
         .select()
         .single();
 
@@ -60,7 +78,11 @@ btn.onclick = async () => {
     }
 
     // =========================
+<<<<<<< HEAD
     // 3️⃣ SUBIR A CLOUDINARY
+=======
+    // 3️⃣ SUBIR ARCHIVOS A CLOUDINARY
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     // =========================
     const thumbnail_url = await uploadFile(coverFile);
     const audio_url = await uploadFile(audioFile);
@@ -75,6 +97,7 @@ btn.onclick = async () => {
     // =========================
     const songData = {
       titulo,
+<<<<<<< HEAD
       artist_id,
       genero,
       audio_url,
@@ -96,6 +119,27 @@ btn.onclick = async () => {
       icon: "success",
       title: "¡Contenido subido correctamente!",
       text: "La canción fue guardada en la base de datos"
+=======
+      genero,
+      audio_url,
+      thumbnail_url,
+      artist_id
+    };
+
+    if (video_url) {
+      songData.video_url = video_url;
+    }
+
+    const { error: errorSong } = await supabase
+      .from("songs")
+      .insert([songData]);
+
+    if (errorSong) throw errorSong;
+
+    Swal.fire({
+      icon: "success",
+      title: "¡Contenido subido correctamente!",
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     }).then(() => location.reload());
 
   } catch (err) {

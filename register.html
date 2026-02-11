@@ -108,7 +108,10 @@
       border-color: var(--accent);
       color: var(--text-primary);
       box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+<<<<<<< HEAD
       outline: none;
+=======
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     }
 
     .form-control.is-invalid {
@@ -151,18 +154,24 @@
       border: none;
       color: var(--text-secondary);
       cursor: pointer;
+<<<<<<< HEAD
       padding: 0.5rem;
       z-index: 10;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: color 0.2s ease;
+=======
+      padding: 0.25rem;
+      z-index: 5;
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     }
 
     .password-toggle:hover {
       color: var(--text-primary);
     }
 
+<<<<<<< HEAD
     .password-toggle:focus {
       outline: none;
     }
@@ -171,6 +180,8 @@
       padding-right: 3rem;
     }
 
+=======
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     .form-text {
       font-size: 0.8rem;
       color: var(--text-secondary);
@@ -181,11 +192,14 @@
       color: var(--danger);
       font-size: 0.85rem;
       margin-top: 0.25rem;
+<<<<<<< HEAD
       display: none;
     }
 
     .invalid-feedback.d-block {
       display: block;
+=======
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     }
 
     .valid-feedback {
@@ -245,7 +259,11 @@
       box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
     }
 
+<<<<<<< HEAD
     .btn-primary:hover:not(:disabled) {
+=======
+    .btn-primary:hover {
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
     }
@@ -372,7 +390,11 @@
             <i class="bi bi-lock-fill input-icon"></i>
             <input 
               type="password" 
+<<<<<<< HEAD
               class="form-control has-toggle" 
+=======
+              class="form-control" 
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
               id="password" 
               placeholder="••••••••"
               required
@@ -398,7 +420,11 @@
             <i class="bi bi-lock-fill input-icon"></i>
             <input 
               type="password" 
+<<<<<<< HEAD
               class="form-control has-toggle" 
+=======
+              class="form-control" 
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
               id="confirmPassword" 
               placeholder="••••••••"
               required
@@ -430,20 +456,28 @@
       if (isAuth) {
         window.location.href = "/app/index.html";
       }
+<<<<<<< HEAD
     }).catch(() => {
       // Usuario no autenticado, continuar normal
+=======
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     });
 
     const form = document.getElementById("registerForm");
     const submitBtn = document.getElementById("submitBtn");
     const alertContainer = document.getElementById("alertContainer");
 
+<<<<<<< HEAD
     // Password toggles - ARREGLADO
+=======
+    // Password toggles
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     const togglePassword = document.getElementById("togglePassword");
     const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
     const passwordInput = document.getElementById("password");
     const confirmPasswordInput = document.getElementById("confirmPassword");
 
+<<<<<<< HEAD
     // Toggle para mostrar/ocultar contraseña principal
     togglePassword.addEventListener("click", (e) => {
       e.preventDefault();
@@ -482,6 +516,20 @@
         icon.classList.remove("bi-eye");
         icon.classList.add("bi-eye-slash");
       }
+=======
+    togglePassword.addEventListener("click", () => {
+      const type = passwordInput.type === "password" ? "text" : "password";
+      passwordInput.type = type;
+      togglePassword.querySelector("i").className = 
+        type === "password" ? "bi bi-eye" : "bi bi-eye-slash";
+    });
+
+    toggleConfirmPassword.addEventListener("click", () => {
+      const type = confirmPasswordInput.type === "password" ? "text" : "password";
+      confirmPasswordInput.type = type;
+      toggleConfirmPassword.querySelector("i").className = 
+        type === "password" ? "bi bi-eye" : "bi bi-eye-slash";
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     });
 
     // Password strength checker
@@ -492,12 +540,15 @@
       const password = passwordInput.value;
       let strength = 0;
 
+<<<<<<< HEAD
       if (password.length === 0) {
         strengthFill.className = "strength-fill";
         strengthText.textContent = "";
         return;
       }
 
+=======
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
       if (password.length >= 6) strength++;
       if (password.length >= 10) strength++;
       if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
@@ -509,6 +560,7 @@
       if (strength <= 2) {
         strengthFill.classList.add("weak");
         strengthText.textContent = "Débil";
+<<<<<<< HEAD
         strengthText.style.color = "var(--danger)";
       } else if (strength <= 3) {
         strengthFill.classList.add("medium");
@@ -518,6 +570,14 @@
         strengthFill.classList.add("strong");
         strengthText.textContent = "Fuerte";
         strengthText.style.color = "var(--success)";
+=======
+      } else if (strength <= 3) {
+        strengthFill.classList.add("medium");
+        strengthText.textContent = "Media";
+      } else {
+        strengthFill.classList.add("strong");
+        strengthText.textContent = "Fuerte";
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
       }
     });
 
@@ -525,11 +585,14 @@
     const usernameInput = document.getElementById("username");
     const usernameFeedback = document.getElementById("usernameFeedback");
 
+<<<<<<< HEAD
     usernameInput.addEventListener("input", () => {
       usernameInput.classList.remove("is-invalid", "is-valid");
       usernameFeedback.classList.remove("d-block");
     });
 
+=======
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     usernameInput.addEventListener("blur", () => {
       const username = usernameInput.value.trim();
       const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
@@ -537,6 +600,7 @@
       if (!username) {
         usernameInput.classList.add("is-invalid");
         usernameFeedback.textContent = "El nombre de usuario es requerido";
+<<<<<<< HEAD
         usernameFeedback.classList.add("d-block");
       } else if (!usernameRegex.test(username)) {
         usernameInput.classList.add("is-invalid");
@@ -546,6 +610,14 @@
         usernameInput.classList.remove("is-invalid");
         usernameInput.classList.add("is-valid");
         usernameFeedback.classList.remove("d-block");
+=======
+      } else if (!usernameRegex.test(username)) {
+        usernameInput.classList.add("is-invalid");
+        usernameFeedback.textContent = "Solo letras, números y guiones bajos (3-20 caracteres)";
+      } else {
+        usernameInput.classList.remove("is-invalid");
+        usernameInput.classList.add("is-valid");
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
       }
     });
 
@@ -553,11 +625,14 @@
     const emailInput = document.getElementById("email");
     const emailFeedback = document.getElementById("emailFeedback");
 
+<<<<<<< HEAD
     emailInput.addEventListener("input", () => {
       emailInput.classList.remove("is-invalid", "is-valid");
       emailFeedback.classList.remove("d-block");
     });
 
+=======
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     emailInput.addEventListener("blur", () => {
       const email = emailInput.value.trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -565,6 +640,7 @@
       if (!email) {
         emailInput.classList.add("is-invalid");
         emailFeedback.textContent = "El email es requerido";
+<<<<<<< HEAD
         emailFeedback.classList.add("d-block");
       } else if (!emailRegex.test(email)) {
         emailInput.classList.add("is-invalid");
@@ -574,12 +650,21 @@
         emailInput.classList.remove("is-invalid");
         emailInput.classList.add("is-valid");
         emailFeedback.classList.remove("d-block");
+=======
+      } else if (!emailRegex.test(email)) {
+        emailInput.classList.add("is-invalid");
+        emailFeedback.textContent = "Ingresa un email válido";
+      } else {
+        emailInput.classList.remove("is-invalid");
+        emailInput.classList.add("is-valid");
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
       }
     });
 
     // Confirm password validation
     const confirmPasswordFeedback = document.getElementById("confirmPasswordFeedback");
 
+<<<<<<< HEAD
     confirmPasswordInput.addEventListener("input", () => {
       confirmPasswordInput.classList.remove("is-invalid", "is-valid");
       confirmPasswordFeedback.classList.remove("d-block");
@@ -610,6 +695,15 @@
           confirmPasswordInput.classList.add("is-valid");
           confirmPasswordFeedback.classList.remove("d-block");
         }
+=======
+    confirmPasswordInput.addEventListener("blur", () => {
+      if (confirmPasswordInput.value !== passwordInput.value) {
+        confirmPasswordInput.classList.add("is-invalid");
+        confirmPasswordFeedback.textContent = "Las contraseñas no coinciden";
+      } else {
+        confirmPasswordInput.classList.remove("is-invalid");
+        confirmPasswordInput.classList.add("is-valid");
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
       }
     });
 
@@ -621,9 +715,12 @@
           ${message}
         </div>
       `;
+<<<<<<< HEAD
       
       // Scroll suave al alert
       alertContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+=======
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     }
 
     // Handle form submission
@@ -635,6 +732,7 @@
       const password = passwordInput.value;
       const confirmPassword = confirmPasswordInput.value;
 
+<<<<<<< HEAD
       // Validación del username
       const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
       if (!username) {
@@ -682,6 +780,21 @@
       if (password !== confirmPassword) {
         showAlert("Las contraseñas no coinciden");
         confirmPasswordInput.focus();
+=======
+      // Validate
+      if (!username || !email || !password || !confirmPassword) {
+        showAlert("Por favor completa todos los campos");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showAlert("Las contraseñas no coinciden");
+        return;
+      }
+
+      if (password.length < 6) {
+        showAlert("La contraseña debe tener al menos 6 caracteres");
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
         return;
       }
 
@@ -695,6 +808,7 @@
 
         if (result.success) {
           showAlert("¡Cuenta creada exitosamente! Redirigiendo...", "success");
+<<<<<<< HEAD
           
           // Limpiar formulario
           form.reset();
@@ -703,6 +817,11 @@
           setTimeout(() => {
             window.location.href = "/app/index.html";
           }, 2000);
+=======
+          setTimeout(() => {
+            window.location.href = "/app/index.html";
+          }, 1500);
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
         } else {
           showAlert(result.error || "Error al crear la cuenta");
           submitBtn.disabled = false;
@@ -710,7 +829,11 @@
         }
       } catch (error) {
         console.error("Error:", error);
+<<<<<<< HEAD
         showAlert("Error de conexión. Por favor intenta de nuevo.");
+=======
+        showAlert("Error de conexión. Intenta de nuevo.");
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Crear Cuenta';
       }

@@ -34,7 +34,11 @@ export async function getUserProfile(userId) {
  */
 export async function register(email, password, username) {
   try {
+<<<<<<< HEAD
     // 1️⃣ Crear usuario en Auth
+=======
+    // 1. Crear usuario en Auth
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -42,6 +46,7 @@ export async function register(email, password, username) {
 
     if (authError) throw authError;
 
+<<<<<<< HEAD
     const userId = authData.user.id;
 
     // 2️⃣ Insertar perfil directamente
@@ -77,11 +82,30 @@ export async function register(email, password, username) {
       confirmButtonText: 'OK'
     });
 
+=======
+    // 2. Actualizar perfil con username y email
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .update({ 
+        username, 
+        email 
+      })
+      .eq("id", authData.user.id);
+
+    if (profileError) throw profileError;
+
+    return { success: true, user: authData.user };
+  } catch (error) {
+    console.error("Error en registro:", error);
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
     return { success: false, error: error.message };
   }
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e202cdadf19849e2881bccdcca0dc1822b7b2401
 /**
  * Login con email o username
  */
