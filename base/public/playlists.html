@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis Playlists - Varian Music</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #12172a;
+  --bg-card: #1a1f35;
+  --bg-hover: #222844;
+  --border: #2a3350;
+  --accent: #6366f1;
+  --accent-hover: #5558e3;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --danger: #ef4444;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding-bottom: 100px;
+}
+
+/* HEADER */
+.header {
+  background: linear-gradient(180deg, var(--bg-secondary) 0%, rgba(18, 23, 42, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 0;
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--accent);
+}
+
+/* PAGE HEADER */
+.page-header {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+  padding: 3rem 0 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.btn-create {
+  background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.btn-create:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+
+/* PLAYLIST CARD */
+.playlist-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.playlist-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.playlist-cover {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.playlist-cover-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.playlist-options {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.playlist-options:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
+}
+
+.playlist-info {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.playlist-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.playlist-count {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.empty-icon {
+  font-size: 5rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.empty-text {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* LOADING */
+.loading-spinner {
+  text-align: center;
+  padding: 3rem;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .page-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+  
+  .bottom-nav {
+    display: flex;
+  }
+  
+  body {
+    padding-bottom: 80px;
+  }
+}
+
+@media (min-width: 769px) {
+  .bottom-nav {
+    display: none;
+  }
+}
+
+/* BOTTOM NAVBAR MÓVIL */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 0.75rem 0;
+  z-index: 100;
+  display: none;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bottom-nav-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.nav-item i {
+  font-size: 1.5rem;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  color: var(--accent);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.nav-item.active {
+  color: var(--accent);
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="brand">
+        <i class="bi bi-music-note-beamed"></i>
+        Varian Music
+      </div>
+      
+      <div class="nav-links d-none d-md-flex">
+        <a href="index.html" class="nav-link">
+          <i class="bi bi-house-fill"></i> Inicio
+        </a>
+        <a href="favorites.html" class="nav-link">
+          <i class="bi bi-heart-fill"></i> Favoritos
+        </a>
+        <a href="playlists.html" class="nav-link active">
+          <i class="bi bi-music-note-list"></i> Playlists
+        </a>
+        <a href="profile.html" class="nav-link">
+          <i class="bi bi-person-circle"></i> Perfil
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="page-header">
+  <div class="container">
+    <div class="page-icon">
+      <i class="bi bi-music-note-list"></i>
+    </div>
+    <h1 class="page-title">Mis Playlists</h1>
+    <p class="page-subtitle" id="playlistsCount">0 playlists creadas</p>
+    <button class="btn-create" onclick="crearPlaylist()">
+      <i class="bi bi-plus-circle-fill"></i>
+      Crear Playlist
+    </button>
+  </div>
+</section>
+
+<!-- PLAYLISTS LIST -->
+<main class="container">
+  <div id="loadingState" class="loading-spinner" style="display: none;">
+    <div class="spinner"></div>
+    <p class="text-secondary">Cargando playlists...</p>
+  </div>
+
+  <div id="playlistsList" class="row g-3 g-md-4"></div>
+  
+  <div id="emptyState" class="empty-state" style="display: none;">
+    <div class="empty-icon">
+      <i class="bi bi-music-note-list"></i>
+    </div>
+    <h3 class="empty-title">No tienes playlists aún</h3>
+    <p class="empty-text">Crea tu primera playlist para organizar tus canciones favoritas</p>
+  </div>
+</main>
+
+<!-- BOTTOM NAVBAR MÓVIL -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-content">
+    <a href="index.html" class="nav-item">
+      <i class="bi bi-house-fill"></i>
+      <span>Inicio</span>
+    </a>
+    <a href="favorites.html" class="nav-item">
+      <i class="bi bi-heart-fill"></i>
+      <span>Favoritos</span>
+    </a>
+    <a href="playlists.html" class="nav-item active">
+      <i class="bi bi-music-note-list"></i>
+      <span>Playlists</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <i class="bi bi-person-circle"></i>
+      <span>Perfil</span>
+    </a>
+  </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module">
+import { getUserPlaylists, createPlaylist, deletePlaylist } from "../assets/js/metrics.js";
+import { checkAuth } from "../assets/js/auth.js";
+
+// Verificar autenticación
+checkAuth().then(isAuth => {
+  if (!isAuth) {
+    window.location.href = "/login.html";
+  } else {
+    cargarPlaylists();
+  }
+});
+
+const playlistsList = document.getElementById("playlistsList");
+const loadingState = document.getElementById("loadingState");
+const emptyState = document.getElementById("emptyState");
+const playlistsCount = document.getElementById("playlistsCount");
+
+async function cargarPlaylists() {
+  loadingState.style.display = "block";
+  playlistsList.innerHTML = "";
+  emptyState.style.display = "none";
+
+  try {
+    const playlists = await getUserPlaylists();
+    
+    if (playlists.length === 0) {
+      loadingState.style.display = "none";
+      emptyState.style.display = "block";
+      playlistsCount.textContent = "0 playlists creadas";
+      return;
+    }
+
+    playlistsCount.textContent = `${playlists.length} ${playlists.length === 1 ? 'playlist creada' : 'playlists creadas'}`;
+    
+    playlists.forEach(playlist => {
+      const col = document.createElement("div");
+      col.className = "col-6 col-md-4 col-lg-3";
+      col.innerHTML = createPlaylistCard(playlist);
+      playlistsList.appendChild(col);
+    });
+
+  } catch (error) {
+    console.error("Error cargando playlists:", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No se pudieron cargar las playlists'
+    });
+  } finally {
+    loadingState.style.display = "none";
+  }
+}
+
+function createPlaylistCard(playlist) {
+  const songCount = playlist.playlist_songs?.[0]?.count || 0;
+  
+  return `
+    <div class="playlist-card" onclick="verPlaylist('${playlist.id}')">
+      <div class="playlist-cover">
+        <div class="playlist-cover-icon">
+          <i class="bi bi-music-note-list"></i>
+        </div>
+        <button class="playlist-options" onclick="event.stopPropagation(); opcionesPlaylist('${playlist.id}', '${escapeForAttribute(playlist.nombre)}')">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+      </div>
+
+      <div class="playlist-info">
+        <h3 class="playlist-name">${escapeHtml(playlist.nombre)}</h3>
+        <p class="playlist-count">
+          <i class="bi bi-music-note"></i>
+          ${songCount} ${songCount === 1 ? 'canción' : 'canciones'}
+        </p>
+      </div>
+    </div>
+  `;
+}
+
+window.crearPlaylist = async function() {
+  const { value: nombre } = await Swal.fire({
+    title: 'Nueva Playlist',
+    input: 'text',
+    inputLabel: 'Nombre de la playlist',
+    inputPlaceholder: 'Mi Playlist Favorita',
+    showCancelButton: true,
+    confirmButtonColor: '#6366f1',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Crear',
+    inputValidator: (value) => {
+      if (!value) {
+        return 'Debes escribir un nombre';
+      }
+      if (value.length < 3) {
+        return 'El nombre debe tener al menos 3 caracteres';
+      }
+    }
+  });
+
+  if (nombre) {
+    try {
+      await createPlaylist(nombre);
+      
+      Swal.fire({
+        icon: 'success',
+        title: '¡Playlist creada!',
+        text: `"${nombre}" se creó exitosamente`,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000
+      });
+
+      cargarPlaylists();
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo crear la playlist'
+      });
+    }
+  }
+}
+
+window.verPlaylist = function(playlistId) {
+  window.location.href = `playlist-detail.html?id=${playlistId}`;
+}
+
+window.opcionesPlaylist = async function(playlistId, nombre) {
+  const result = await Swal.fire({
+    title: nombre,
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: 'Ver playlist',
+    denyButtonText: 'Eliminar',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#6366f1',
+    denyButtonColor: '#ef4444'
+  });
+
+  if (result.isConfirmed) {
+    verPlaylist(playlistId);
+  } else if (result.isDenied) {
+    const confirmDelete = await Swal.fire({
+      title: '¿Eliminar playlist?',
+      text: `Se eliminará "${nombre}" y todas sus canciones`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6366f1',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (confirmDelete.isConfirmed) {
+      try {
+        await deletePlaylist(playlistId);
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Eliminada',
+          text: 'La playlist se eliminó correctamente',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000
+        });
+
+        cargarPlaylists();
+      } catch (error) {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo eliminar la playlist'
+        });
+      }
+    }
+  }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function escapeForAttribute(text) {
+  return text.replace(/'/g, "\\'");
+}
+</script>
+
+</body>
+</html>
