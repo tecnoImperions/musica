@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis Favoritos - Varian Music</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #12172a;
+  --bg-card: #1a1f35;
+  --border: #2a3350;
+  --accent: #6366f1;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 100px;
+}
+
+/* HEADER */
+.header {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 0;
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.desktop-nav {
+  display: none;
+  gap: 0.5rem;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-link:hover {
+  background: rgba(99, 102, 241, 0.2);
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+.nav-link.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* PAGE HEADER */
+.page-header {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* SONG CARDS */
+.song-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s;
+  height: 100%;
+  cursor: pointer;
+}
+
+.song-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.thumbnail {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.thumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 32px;
+  height: 32px;
+  background: rgba(239, 68, 68, 0.9);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+}
+
+.media-badge {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 6px;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.media-badge.video {
+  background: rgba(239, 68, 68, 0.9);
+}
+
+.song-info {
+  padding: 1rem;
+}
+
+.song-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0 0 0.5rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--text-primary);
+}
+
+.song-artist {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  opacity: 0.5;
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.empty-text {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.btn-primary {
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background: #5558e3;
+  transform: translateY(-2px);
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 0.75rem 0;
+  z-index: 100;
+  display: flex;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bottom-nav-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  flex: 1;
+  max-width: 80px;
+}
+
+.nav-item i {
+  font-size: 1.4rem;
+}
+
+.nav-item.active {
+  color: var(--accent);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .brand {
+    font-size: 1.25rem;
+  }
+  
+  body {
+    padding-bottom: 80px;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .page-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.75rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .desktop-nav {
+    display: flex;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+
+  body {
+    padding-bottom: 2rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="brand">
+        <i class="bi bi-music-note-beamed"></i>
+        Varian Music
+      </div>
+      
+      <div class="desktop-nav">
+        <a href="index.html" class="nav-link">
+          <i class="bi bi-house-fill"></i> Inicio
+        </a>
+        <a href="favorites.html" class="nav-link active">
+          <i class="bi bi-heart-fill"></i> Favoritos
+        </a>
+        <a href="playlists.html" class="nav-link">
+          <i class="bi bi-music-note-list"></i> Playlists
+        </a>
+        <a href="profile.html" class="nav-link">
+          <i class="bi bi-person-circle"></i> Perfil
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="page-header">
+  <div class="container">
+    <div class="page-icon">
+      <i class="bi bi-heart-fill"></i>
+    </div>
+    <h1 class="page-title">Mis Favoritos</h1>
+    <p class="page-subtitle" id="favoritesCount">0 canciones guardadas</p>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="container">
+  <div id="loadingState" class="text-center py-5" style="display: none;">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2 text-secondary">Cargando favoritos...</p>
+  </div>
+
+  <div id="favoritesList" class="row g-3"></div>
+  
+  <div id="emptyState" class="empty-state" style="display: none;">
+    <div class="empty-icon">
+      <i class="bi bi-heart"></i>
+    </div>
+    <h3 class="empty-title">No tienes favoritos aún</h3>
+    <p class="empty-text">Empieza a guardar tus canciones favoritas</p>
+    <a href="index.html" class="btn-primary">
+      <i class="bi bi-music-note-list"></i>
+      Explorar música
+    </a>
+  </div>
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-content">
+    <a href="index.html" class="nav-item">
+      <i class="bi bi-house-fill"></i>
+      <span>Inicio</span>
+    </a>
+    <a href="favorites.html" class="nav-item active">
+      <i class="bi bi-heart-fill"></i>
+      <span>Favoritos</span>
+    </a>
+    <a href="playlists.html" class="nav-item">
+      <i class="bi bi-music-note-list"></i>
+      <span>Playlists</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <i class="bi bi-person-circle"></i>
+      <span>Perfil</span>
+    </a>
+  </div>
+</nav>
+
+<script type="module">
+import { supabase } from "../assets/js/supabase.js";
+
+const favoritesList = document.getElementById("favoritesList");
+const loadingState = document.getElementById("loadingState");
+const emptyState = document.getElementById("emptyState");
+const favoritesCount = document.getElementById("favoritesCount");
+
+async function loadFavorites() {
+  loadingState.style.display = "block";
+  favoritesList.innerHTML = "";
+  emptyState.style.display = "none";
+
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("favorites")
+      .select(`
+        id,
+        created_at,
+        songs (
+          id,
+          titulo,
+          thumbnail_url,
+          audio_url,
+          video_url,
+          artists(name)
+        )
+      `)
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    const favorites = data || [];
+    
+    if (favorites.length === 0) {
+      loadingState.style.display = "none";
+      emptyState.style.display = "block";
+      favoritesCount.textContent = "0 canciones guardadas";
+      return;
+    }
+
+    favoritesCount.textContent = `${favorites.length} ${favorites.length === 1 ? 'canción guardada' : 'canciones guardadas'}`;
+    
+    favorites.forEach(fav => {
+      const song = fav.songs;
+      if (!song) return;
+
+      const col = document.createElement("div");
+      col.className = "col-6 col-md-4 col-lg-3";
+      
+      const artist = song.artists?.name || 'Artista Desconocido';
+      const hasVideo = !!song.video_url;
+
+      col.innerHTML = `
+        <div class="song-card" onclick="window.location.href='play.html?id=${song.id}'">
+          <div class="thumbnail">
+            <img src="${song.thumbnail_url}" alt="${song.titulo}">
+
+            <button class="favorite-btn" onclick="event.stopPropagation(); removeFavorite('${song.id}')">
+              <i class="bi bi-heart-fill"></i>
+            </button>
+
+            <span class="media-badge ${hasVideo ? 'video' : ''}">
+              <i class="bi ${hasVideo ? 'bi-camera-video' : 'bi-music-note'}"></i>
+              ${hasVideo ? 'Video' : 'Audio'}
+            </span>
+          </div>
+
+          <div class="song-info">
+            <h3 class="song-title">${song.titulo}</h3>
+            <p class="song-artist">${artist}</p>
+          </div>
+        </div>
+      `;
+
+      favoritesList.appendChild(col);
+    });
+
+  } catch (error) {
+    console.error("Error:", error);
+    Swal.fire('Error', 'No se pudieron cargar los favoritos', 'error');
+  } finally {
+    loadingState.style.display = "none";
+  }
+}
+
+window.removeFavorite = async function(songId) {
+  const result = await Swal.fire({
+    title: '¿Quitar de favoritos?',
+    text: 'Esta canción se eliminará de tus favoritos',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#ef4444',
+    cancelButtonColor: '#6366f1',
+    confirmButtonText: 'Sí, quitar',
+    cancelButtonText: 'Cancelar'
+  });
+
+  if (result.isConfirmed) {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      await supabase
+        .from("favorites")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("song_id", songId);
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Eliminado',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000
+      });
+
+      loadFavorites();
+    } catch (error) {
+      Swal.fire('Error', 'No se pudo quitar de favoritos', 'error');
+    }
+  }
+}
+
+loadFavorites();
+</script>
+
+</body>
+</html>

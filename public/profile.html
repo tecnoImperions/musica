@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Perfil - Varian Music</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #12172a;
+  --bg-card: #1a1f35;
+  --border: #2a3350;
+  --accent: #6366f1;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --danger: #ef4444;
+  --success: #10b981;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 100px;
+}
+
+/* HEADER */
+.header {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 0;
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.desktop-nav {
+  display: none;
+  gap: 0.5rem;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-link:hover {
+  background: rgba(99, 102, 241, 0.2);
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+.nav-link.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* PROFILE HEADER */
+.profile-header {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: white;
+  border: 3px solid var(--border);
+  margin: 0 auto 1rem;
+}
+
+.profile-info {
+  text-align: center;
+}
+
+.profile-username {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.profile-email {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.profile-joined {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* STATS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 0.75rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.stat-icon.favorites {
+  background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+}
+
+.stat-icon.playlists {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.stat-icon.history {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.stat-icon.likes {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* ACTION CARDS */
+.action-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.action-card:hover {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: var(--accent);
+}
+
+.action-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.action-icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.action-text h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+}
+
+.action-text p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.action-arrow {
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.btn-logout {
+  background: var(--danger);
+  border: none;
+  border-radius: 10px;
+  padding: 0.875rem;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 0.75rem 0;
+  z-index: 100;
+  display: flex;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bottom-nav-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  flex: 1;
+  max-width: 80px;
+}
+
+.nav-item i {
+  font-size: 1.4rem;
+}
+
+.nav-item.active {
+  color: var(--accent);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .brand {
+    font-size: 1.25rem;
+  }
+  
+  body {
+    padding-bottom: 80px;
+  }
+
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+
+  .profile-username {
+    font-size: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 769px) {
+  .desktop-nav {
+    display: flex;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+
+  body {
+    padding-bottom: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .profile-avatar {
+    width: 120px;
+    height: 120px;
+    font-size: 3rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="brand">
+        <i class="bi bi-music-note-beamed"></i>
+        Varian Music
+      </div>
+      
+      <div class="desktop-nav">
+        <a href="index.html" class="nav-link">
+          <i class="bi bi-house-fill"></i> Inicio
+        </a>
+        <a href="favorites.html" class="nav-link">
+          <i class="bi bi-heart-fill"></i> Favoritos
+        </a>
+        <a href="playlists.html" class="nav-link">
+          <i class="bi bi-music-note-list"></i> Playlists
+        </a>
+        <a href="profile.html" class="nav-link active">
+          <i class="bi bi-person-circle"></i> Perfil
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PROFILE HEADER -->
+<section class="profile-header">
+  <div class="container">
+    <div id="loadingState" class="text-center py-4">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-2 text-secondary">Cargando perfil...</p>
+    </div>
+
+    <div id="profileContent" style="display: none;">
+      <div class="profile-avatar" id="profileAvatar">
+        <i class="bi bi-person-fill"></i>
+      </div>
+
+      <div class="profile-info">
+        <h1 class="profile-username" id="profileUsername">Usuario</h1>
+        <p class="profile-email" id="profileEmail">email@example.com</p>
+        <p class="profile-joined" id="profileJoined">Miembro desde...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="container">
+  <div id="statsContent" style="display: none;">
+    <!-- STATS -->
+    <h2 class="mb-3" style="font-size: 1.25rem; font-weight: 700;">Tus Estadísticas</h2>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon favorites">
+          <i class="bi bi-heart-fill"></i>
+        </div>
+        <div class="stat-value" id="statFavorites">0</div>
+        <div class="stat-label">Favoritos</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon playlists">
+          <i class="bi bi-music-note-list"></i>
+        </div>
+        <div class="stat-value" id="statPlaylists">0</div>
+        <div class="stat-label">Playlists</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon history">
+          <i class="bi bi-clock-history"></i>
+        </div>
+        <div class="stat-value" id="statHistory">0</div>
+        <div class="stat-label">Escuchadas</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon likes">
+          <i class="bi bi-hand-thumbs-up-fill"></i>
+        </div>
+        <div class="stat-value" id="statLikes">0</div>
+        <div class="stat-label">Me gusta</div>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <h2 class="mb-3 mt-4" style="font-size: 1.25rem; font-weight: 700;">Configuración</h2>
+
+    <div class="action-card" onclick="window.location.href='favorites.html'">
+      <div class="action-info">
+        <div class="action-icon">
+          <i class="bi bi-heart-fill"></i>
+        </div>
+        <div class="action-text">
+          <h3>Mis Favoritos</h3>
+          <p>Ver todas tus canciones favoritas</p>
+        </div>
+      </div>
+      <i class="bi bi-chevron-right action-arrow"></i>
+    </div>
+
+    <div class="action-card" onclick="window.location.href='playlists.html'">
+      <div class="action-info">
+        <div class="action-icon">
+          <i class="bi bi-music-note-list"></i>
+        </div>
+        <div class="action-text">
+          <h3>Mis Playlists</h3>
+          <p>Administra tus listas de reproducción</p>
+        </div>
+      </div>
+      <i class="bi bi-chevron-right action-arrow"></i>
+    </div>
+
+    <div class="action-card" onclick="editProfile()">
+      <div class="action-info">
+        <div class="action-icon">
+          <i class="bi bi-person-fill"></i>
+        </div>
+        <div class="action-text">
+          <h3>Editar Perfil</h3>
+          <p>Cambia tu nombre de usuario</p>
+        </div>
+      </div>
+      <i class="bi bi-chevron-right action-arrow"></i>
+    </div>
+
+    <div class="action-card" onclick="changePassword()">
+      <div class="action-info">
+        <div class="action-icon">
+          <i class="bi bi-shield-lock"></i>
+        </div>
+        <div class="action-text">
+          <h3>Cambiar Contraseña</h3>
+          <p>Actualiza tu contraseña de acceso</p>
+        </div>
+      </div>
+      <i class="bi bi-chevron-right action-arrow"></i>
+    </div>
+
+    <button class="btn-logout" onclick="logout()">
+      <i class="bi bi-box-arrow-right"></i>
+      Cerrar Sesión
+    </button>
+  </div>
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-content">
+    <a href="index.html" class="nav-item">
+      <i class="bi bi-house-fill"></i>
+      <span>Inicio</span>
+    </a>
+    <a href="favorites.html" class="nav-item">
+      <i class="bi bi-heart-fill"></i>
+      <span>Favoritos</span>
+    </a>
+    <a href="playlists.html" class="nav-item">
+      <i class="bi bi-music-note-list"></i>
+      <span>Playlists</span>
+    </a>
+    <a href="profile.html" class="nav-item active">
+      <i class="bi bi-person-circle"></i>
+      <span>Perfil</span>
+    </a>
+  </div>
+</nav>
+
+<script type="module">
+import { supabase } from "../assets/js/supabase.js";
+
+const loadingState = document.getElementById("loadingState");
+const profileContent = document.getElementById("profileContent");
+const statsContent = document.getElementById("statsContent");
+
+async function loadProfile() {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    // Obtener perfil
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    // Mostrar datos del perfil
+    const username = profile?.username || user.email.split('@')[0];
+    document.getElementById("profileUsername").textContent = username;
+    document.getElementById("profileEmail").textContent = user.email;
+    
+    // Fecha de creación
+    const joined = new Date(user.created_at).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    document.getElementById("profileJoined").textContent = `Miembro desde ${joined}`;
+
+    // Avatar (iniciales)
+    const initials = username.charAt(0).toUpperCase();
+    document.getElementById("profileAvatar").textContent = initials;
+
+    // Obtener estadísticas
+    const [favorites, playlists, history, likes] = await Promise.all([
+      supabase.from("favorites").select("id", { count: "exact", head: true }).eq("user_id", user.id),
+      supabase.from("playlists").select("id", { count: "exact", head: true }).eq("user_id", user.id),
+      supabase.from("history").select("id", { count: "exact", head: true }).eq("user_id", user.id),
+      supabase.from("likes").select("id", { count: "exact", head: true }).eq("user_id", user.id),
+    ]);
+
+    document.getElementById("statFavorites").textContent = favorites.count || 0;
+    document.getElementById("statPlaylists").textContent = playlists.count || 0;
+    document.getElementById("statHistory").textContent = history.count || 0;
+    document.getElementById("statLikes").textContent = likes.count || 0;
+
+    // Mostrar contenido
+    loadingState.style.display = "none";
+    profileContent.style.display = "block";
+    statsContent.style.display = "block";
+
+  } catch (error) {
+    console.error("Error:", error);
+    Swal.fire('Error', 'No se pudo cargar el perfil', 'error');
+  }
+}
+
+// Editar perfil
+window.editProfile = async function() {
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("username")
+    .eq("id", user.id)
+    .single();
+
+  const { value: newUsername } = await Swal.fire({
+    title: 'Editar Perfil',
+    input: 'text',
+    inputLabel: 'Nombre de usuario',
+    inputValue: profile?.username || '',
+    inputPlaceholder: 'Tu nombre de usuario',
+    showCancelButton: true,
+    confirmButtonColor: '#6366f1',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Guardar',
+    inputValidator: (value) => {
+      if (!value) {
+        return 'Debes escribir un nombre de usuario';
+      }
+      if (value.length < 3) {
+        return 'Mínimo 3 caracteres';
+      }
+    }
+  });
+
+  if (newUsername) {
+    try {
+      const { error } = await supabase
+        .from("profiles")
+        .upsert({
+          id: user.id,
+          username: newUsername,
+          email: user.email
+        });
+
+      if (error) throw error;
+
+      Swal.fire({
+        icon: 'success',
+        title: '¡Perfil actualizado!',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000
+      });
+
+      loadProfile();
+    } catch (error) {
+      if (error.code === '23505') {
+        Swal.fire('Error', 'Este nombre de usuario ya está en uso', 'error');
+      } else {
+        Swal.fire('Error', 'No se pudo actualizar el perfil', 'error');
+      }
+    }
+  }
+}
+
+// Cambiar contraseña
+window.changePassword = async function() {
+  const { value: formValues } = await Swal.fire({
+    title: 'Cambiar Contraseña',
+    html: `
+      <input type="password" id="swal-password" class="swal2-input" placeholder="Nueva contraseña" style="margin-top: 1rem;">
+      <input type="password" id="swal-confirm" class="swal2-input" placeholder="Confirmar contraseña">
+    `,
+    focusConfirm: false,
+    showCancelButton: true,
+    confirmButtonColor: '#6366f1',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Cambiar',
+    preConfirm: () => {
+      const password = document.getElementById('swal-password').value;
+      const confirm = document.getElementById('swal-confirm').value;
+      
+      if (!password) {
+        Swal.showValidationMessage('Ingresa una contraseña');
+        return false;
+      }
+      if (password.length < 6) {
+        Swal.showValidationMessage('Mínimo 6 caracteres');
+        return false;
+      }
+      if (password !== confirm) {
+        Swal.showValidationMessage('Las contraseñas no coinciden');
+        return false;
+      }
+      
+      return password;
+    }
+  });
+
+  if (formValues) {
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: formValues
+      });
+
+      if (error) throw error;
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Contraseña actualizada',
+        text: 'Tu contraseña se cambió correctamente',
+        confirmButtonColor: '#6366f1'
+      });
+    } catch (error) {
+      Swal.fire('Error', 'No se pudo cambiar la contraseña', 'error');
+    }
+  }
+}
+
+// Cerrar sesión
+window.logout = async function() {
+  const result = await Swal.fire({
+    title: '¿Cerrar sesión?',
+    text: 'Tendrás que iniciar sesión nuevamente',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#ef4444',
+    cancelButtonColor: '#6366f1',
+    confirmButtonText: 'Sí, cerrar sesión',
+    cancelButtonText: 'Cancelar'
+  });
+
+  if (result.isConfirmed) {
+    try {
+      await supabase.auth.signOut();
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Sesión cerrada',
+        text: 'Hasta pronto',
+        timer: 1500,
+        showConfirmButton: false
+      });
+      
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1500);
+    } catch (error) {
+      Swal.fire('Error', 'No se pudo cerrar la sesión', 'error');
+    }
+  }
+}
+
+loadProfile();
+</script>
+
+</body>
+</html>
