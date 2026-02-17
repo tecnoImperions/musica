@@ -285,7 +285,7 @@ body {
 }
 .sheet-option:hover { background: var(--bg-card); }
 .sheet-option i { font-size: 1.25rem; width: 24px; color: var(--accent); }
-.sheet-option.liked i { color: #ef4444; }
+
 
 /* PLAYLIST MODAL */
 .playlist-modal {
@@ -476,9 +476,6 @@ body {
     <button class="sheet-option" onclick="addToPlaylist()">
       <i class="bi bi-music-note-list"></i> Añadir a playlist
     </button>
-    <button class="sheet-option" id="likeSheetBtn" onclick="toggleLike()">
-      <i class="bi bi-hand-thumbs-up"></i> Me gusta
-    </button>
     <button class="sheet-option" onclick="toggleFavorite()">
       <i class="bi bi-heart-fill"></i> Añadir a favoritos
     </button>
@@ -532,7 +529,7 @@ let songs         = [];
 let filtered      = [];
 let currentSong   = null;
 let userPlaylists = [];
-let likedSongs    = new Set(); // IDs de canciones con like del usuario
+
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const miniPlayer       = document.getElementById('miniPlayer');
@@ -643,18 +640,6 @@ async function loadSongs() {
 
   songs = filtered = data || [];
 
-  // Cargar likes del usuario
-  try {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const { data: likesData } = await supabase
-        .from('likes')
-        .select('song_id')
-        .eq('user_id', user.id);
-      likedSongs = new Set((likesData || []).map(l => l.song_id));
-    }
-  } catch (_) {}
-
   render();
 }
 
@@ -717,13 +702,6 @@ window.openSheet = function (songId) {
   document.getElementById('sheetArtist').textContent = currentSong.artists?.name || 'Artista Desconocido';
   document.getElementById('videoBtn').style.display  = currentSong.video_url ? 'flex' : 'none';
 
-  // Actualizar botón like
-  const likeBtn = document.getElementById('likeSheetBtn');
-  const isLiked = likedSongs.has(currentSong.id);
-  likeBtn.classList.toggle('liked', isLiked);
-  likeBtn.querySelector('i').className = isLiked ? 'bi bi-hand-thumbs-up-fill' : 'bi bi-hand-thumbs-up';
-  likeBtn.childNodes[1].textContent = isLiked ? ' Quitar me gusta' : ' Me gusta';
-
   document.getElementById('overlay').classList.add('active');
   document.getElementById('sheet').classList.add('active');
 };
@@ -763,38 +741,6 @@ window.play = async function (mode) {
   window.location.href = mode === 'video'
     ? `play.html?id=${currentSong.id}&mode=video`
     : `play.html?id=${currentSong.id}`;
-};
-
-// ── Like ──────────────────────────────────────────────────────────────────────
-window.toggleLike = async function () {
-  if (!currentSong) return;
-  try {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { Swal.fire('Error', 'Debes iniciar sesión', 'error'); return; }
-
-    const isLiked = likedSongs.has(currentSong.id);
-    if (isLiked) {
-      await supabase.from('likes').delete()
-        .eq('user_id', user.id).eq('song_id', currentSong.id);
-      likedSongs.delete(currentSong.id);
-    } else {
-      await supabase.from('likes').upsert({ user_id: user.id, song_id: currentSong.id });
-      likedSongs.add(currentSong.id);
-    }
-
-    // Actualizar botón en el sheet
-    const likeBtn = document.getElementById('likeSheetBtn');
-    const nowLiked = likedSongs.has(currentSong.id);
-    likeBtn.classList.toggle('liked', nowLiked);
-    likeBtn.querySelector('i').className = nowLiked ? 'bi bi-hand-thumbs-up-fill' : 'bi bi-hand-thumbs-up';
-    likeBtn.childNodes[1].textContent = nowLiked ? ' Quitar me gusta' : ' Me gusta';
-
-    Swal.fire({
-      icon: 'success',
-      title: nowLiked ? '👍 ¡Te gustó!' : '👎 Me gusta quitado',
-      toast: true, position: 'top-end', showConfirmButton: false, timer: 1500
-    });
-  } catch (err) { Swal.fire('Error', err.message, 'error'); }
 };
 
 // ── Favoritos ─────────────────────────────────────────────────────────────────
