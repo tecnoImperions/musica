@@ -20,7 +20,7 @@
   --accent: #6366f1;
   --text-primary: #f1f5f9;
   --text-secondary: #94a3b8;
-  --bottom-nav-height: 95px;
+  --bottom-nav-height: 72px;
   --mini-player-height: 68px;
 }
 
@@ -31,7 +31,7 @@ body {
   color: var(--text-primary);
   font-family: 'Inter', sans-serif;
   padding-bottom: var(--bottom-nav-height);
-  transition: padding-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: padding-bottom 0.4s cubic-bezier(0.4,0,0.2,1);
 }
 
 /* ================================================
@@ -46,31 +46,26 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding: 0.5rem 1rem;
-  z-index: 200; /* debajo del bottom-nav (z-index 300) */
+  z-index: 200;
   box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
   transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
 }
 
-/* MOBILE: encima del bottom nav */
 @media (max-width: 768px) {
   .mini-player {
-    bottom: var(--bottom-nav-height); /* se apoya sobre el nav */
+    bottom: var(--bottom-nav-height);
     top: auto;
     border-radius: 16px 16px 0 0;
     border-top: 1px solid rgba(255,255,255,0.1);
-    transform: translateY(110%); /* oculto fuera de vista */
+    transform: translateY(110%);
     padding: 0.35rem 0.75rem;
   }
-  .mini-player.active {
-    transform: translateY(0); /* visible */
-  }
+  .mini-player.active { transform: translateY(0); }
   body.mini-player-active {
-    /* espacio extra para que el contenido no quede tapado */
     padding-bottom: calc(var(--bottom-nav-height) + var(--mini-player-height));
   }
 }
 
-/* DESKTOP: pegado al fondo */
 @media (min-width: 769px) {
   .mini-player {
     bottom: 0; top: auto;
@@ -90,12 +85,12 @@ body {
 .mini-thumb {
   width: 52px; height: 52px; border-radius: 6px; object-fit: cover;
   flex-shrink: 0; box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-  cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer; transition: transform 0.2s ease;
 }
-.mini-thumb:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
+.mini-thumb:hover { transform: scale(1.05); }
 
 .mini-info { flex: 1; min-width: 0; cursor: pointer; padding: 0.25rem 0; }
-.mini-info:hover .mini-title { color: rgba(255,255,255,1); }
+.mini-info:hover .mini-title { color: #fff; }
 
 .mini-title {
   font-weight: 600; font-size: 0.95rem; margin: 0 0 0.25rem 0;
@@ -125,9 +120,7 @@ body {
   width: 42px; height: 42px; background: white; color: var(--accent);
   font-size: 1.15rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
-.mini-control-btn.play-pause:hover {
-  background: rgba(255,255,255,1); transform: scale(1.12); box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-}
+.mini-control-btn.play-pause:hover { background: #fff; transform: scale(1.12); }
 
 .mini-progress {
   position: absolute; bottom: 0; left: 0; right: 0;
@@ -147,7 +140,6 @@ body {
 }
 .mini-close:hover { background: rgba(255,255,255,0.2); color: white; transform: rotate(90deg); }
 
-/* Mobile mini player tweaks */
 @media (max-width: 768px) {
   .mini-thumb { width: 44px; height: 44px; }
   .mini-title { font-size: 0.85rem; }
@@ -187,15 +179,13 @@ body {
 .nav-link:hover { background: rgba(99,102,241,0.2); color: var(--text-primary); border-color: var(--accent); }
 .nav-link.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-/* ================================================
-   SEARCH
-   ================================================ */
+/* SEARCH */
 .search-section { padding: 1.5rem 0; background: var(--bg-secondary); }
 .search-input {
   width: 100%; padding: 0.875rem 3rem;
   background: var(--bg-card); border: 2px solid var(--border); border-radius: 12px;
-  color: var(--text-primary); transition: border-color 0.3s;
-  font-family: 'Inter', sans-serif; font-size: 0.95rem;
+  color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.95rem;
+  transition: border-color 0.3s;
 }
 .search-input::placeholder { color: var(--text-secondary); }
 .search-input:focus { outline: none; border-color: var(--accent); }
@@ -204,9 +194,7 @@ body {
   transform: translateY(-50%); color: var(--text-secondary);
 }
 
-/* ================================================
-   FILTERS
-   ================================================ */
+/* FILTERS */
 .filters { display: flex; gap: 0.75rem; overflow-x: auto; padding: 1rem 0; scrollbar-width: none; }
 .filters::-webkit-scrollbar { display: none; }
 .filter-chip {
@@ -217,19 +205,19 @@ body {
 .filter-chip:hover { background: rgba(99,102,241,0.1); border-color: var(--accent); }
 .filter-chip.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-/* ================================================
-   SONG CARDS
-   ================================================ */
+/* SONG CARDS */
 .song-card {
   background: var(--bg-card); border-radius: 12px; overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s; height: 100%; cursor: pointer;
 }
 .song-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+
 .thumbnail {
   position: relative; width: 100%; padding-top: 100%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 .thumbnail img { position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; }
+
 .options-btn {
   position: absolute; top: 0.5rem; right: 0.5rem; width: 32px; height: 32px;
   background: rgba(0,0,0,0.85); border: none; border-radius: 50%;
@@ -237,12 +225,29 @@ body {
   display: flex; align-items: center; justify-content: center; transition: all 0.2s;
 }
 .options-btn:hover { background: var(--accent); transform: scale(1.1); }
+
 .media-badge {
   position: absolute; bottom: 0.5rem; left: 0.5rem; padding: 0.25rem 0.5rem;
   background: rgba(0,0,0,0.85); border-radius: 6px; font-size: 0.7rem;
   display: flex; align-items: center; gap: 0.25rem;
 }
 .media-badge.video { background: rgba(239,68,68,0.9); }
+
+/* Indicador de "reproduciendo ahora" en la card */
+.now-playing-badge {
+  position: absolute; top: 0.5rem; left: 0.5rem; width: 28px; height: 28px;
+  background: rgba(99,102,241,0.9); border-radius: 50%;
+  display: none; align-items: center; justify-content: center;
+  animation: pulse-badge 1.5s ease-in-out infinite;
+}
+.now-playing-badge.visible { display: flex; }
+.now-playing-badge i { font-size: 0.7rem; color: white; }
+
+@keyframes pulse-badge {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.6); }
+  50% { box-shadow: 0 0 0 6px rgba(99,102,241,0); }
+}
+
 .song-info { padding: 1rem; }
 .song-title {
   font-weight: 600; font-size: 0.95rem; margin: 0 0 0.5rem 0;
@@ -251,14 +256,13 @@ body {
 }
 .song-artist { font-size: 0.85rem; color: var(--text-secondary); margin: 0; }
 
-/* ================================================
-   BOTTOM SHEET
-   ================================================ */
+/* BOTTOM SHEET */
 .bottom-sheet-overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,0.6);
   backdrop-filter: blur(4px); z-index: 998; display: none;
 }
 .bottom-sheet-overlay.active { display: block; }
+
 .bottom-sheet {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: var(--bg-secondary); border-radius: 24px 24px 0 0;
@@ -266,12 +270,14 @@ body {
   z-index: 999; max-height: 80vh; overflow-y: auto;
 }
 .bottom-sheet.active { transform: translateY(0); }
+
 .sheet-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0.75rem auto; }
 .sheet-header {
   padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
   display: flex; gap: 1rem; align-items: center;
 }
 .sheet-thumb { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+
 .sheet-option {
   padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem;
   border: none; background: none; width: 100%; color: var(--text-primary);
@@ -279,10 +285,9 @@ body {
 }
 .sheet-option:hover { background: var(--bg-card); }
 .sheet-option i { font-size: 1.25rem; width: 24px; color: var(--accent); }
+.sheet-option.liked i { color: #ef4444; }
 
-/* ================================================
-   PLAYLIST MODAL
-   ================================================ */
+/* PLAYLIST MODAL */
 .playlist-modal {
   position: fixed; inset: 0; background: rgba(0,0,0,0.75);
   backdrop-filter: blur(4px); display: none; align-items: center;
@@ -310,7 +315,7 @@ body {
 .playlist-input {
   flex: 1; padding: 0.75rem 1rem; background: var(--bg-card);
   border: 2px solid var(--border); border-radius: 10px; color: var(--text-primary);
-  font-size: 0.9rem; transition: border-color 0.2s; font-family: 'Inter', sans-serif;
+  font-size: 0.9rem; font-family: 'Inter', sans-serif; transition: border-color 0.2s;
 }
 .playlist-input:focus { outline: none; border-color: var(--accent); }
 .create-btn {
@@ -333,15 +338,14 @@ body {
 .playlist-name { font-weight: 600; margin: 0 0 0.25rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .playlist-count { font-size: 0.85rem; color: var(--text-secondary); margin: 0; }
 .empty-playlists { text-align: center; padding: 2rem 1rem; color: var(--text-secondary); }
-.empty-playlists i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+.empty-playlists i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; display: block; }
 
-/* ================================================
-   BOTTOM NAV  z-index 300 → siempre sobre el mini player
-   ================================================ */
+/* BOTTOM NAV  z-index 300 > mini player 200 */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
+  height: var(--bottom-nav-height);
   background: var(--bg-secondary); border-top: 1px solid var(--border);
-  padding: 0.75rem 0; z-index: 300; /* ← más alto que el mini player (200) */
+  padding: 0.75rem 0; z-index: 300;
   display: flex; box-shadow: 0 -4px 12px rgba(0,0,0,0.3);
 }
 .bottom-nav-content {
@@ -357,9 +361,6 @@ body {
 .nav-item i { font-size: 1.4rem; }
 .nav-item.active { color: var(--accent); }
 
-/* ================================================
-   RESPONSIVE
-   ================================================ */
 @media (max-width: 768px) {
   .brand { font-size: 1.25rem; }
   .desktop-nav { display: none; }
@@ -377,29 +378,25 @@ body {
 <div class="mini-player" id="miniPlayer">
   <div class="mini-player-content">
     <img class="mini-thumb" id="miniThumb" src="" alt="">
-
     <div class="mini-info" id="miniInfo">
       <p class="mini-title"  id="miniTitle">Canción</p>
       <p class="mini-artist" id="miniArtist">Artista</p>
     </div>
-
     <div class="mini-controls">
-      <button class="mini-control-btn" id="miniPrevBtn" title="Canción anterior">
+      <button class="mini-control-btn" id="miniPrevBtn" title="Anterior">
         <i class="bi bi-skip-start-fill"></i>
       </button>
-      <button class="mini-control-btn play-pause" id="miniPlayPauseBtn" title="Reproducir/Pausar">
+      <button class="mini-control-btn play-pause" id="miniPlayPauseBtn" title="Play / Pause">
         <i class="bi bi-play-fill"></i>
       </button>
-      <button class="mini-control-btn" id="miniNextBtn" title="Siguiente canción">
+      <button class="mini-control-btn" id="miniNextBtn" title="Siguiente">
         <i class="bi bi-skip-end-fill"></i>
       </button>
     </div>
-
     <button class="mini-close" id="miniCloseBtn" title="Cerrar reproductor">
       <i class="bi bi-x-lg"></i>
     </button>
   </div>
-
   <div class="mini-progress">
     <div class="mini-progress-fill" id="miniProgressFill"></div>
   </div>
@@ -467,13 +464,30 @@ body {
     </div>
   </div>
   <div>
-    <button class="sheet-option" onclick="playInBackground()"><i class="bi bi-play-circle-fill"></i>Reproducir en segundo plano</button>
-    <button class="sheet-option" onclick="play('audio')"><i class="bi bi-music-note-beamed"></i>Abrir reproductor</button>
-    <button class="sheet-option" id="videoBtn" onclick="play('video')"><i class="bi bi-camera-video-fill"></i>Ver video</button>
-    <button class="sheet-option" onclick="addToPlaylist()"><i class="bi bi-music-note-list"></i>Añadir a playlist</button>
-    <button class="sheet-option" onclick="favorite()"><i class="bi bi-heart-fill"></i>Añadir a favoritos</button>
-    <button class="sheet-option" onclick="share()"><i class="bi bi-share-fill"></i>Compartir</button>
-    <button class="sheet-option" onclick="closeSheet()"><i class="bi bi-x-circle"></i>Cancelar</button>
+    <button class="sheet-option" onclick="playInBackground()">
+      <i class="bi bi-play-circle-fill"></i> Reproducir en segundo plano
+    </button>
+    <button class="sheet-option" onclick="play('audio')">
+      <i class="bi bi-music-note-beamed"></i> Abrir reproductor
+    </button>
+    <button class="sheet-option" id="videoBtn" onclick="play('video')">
+      <i class="bi bi-camera-video-fill"></i> Ver video
+    </button>
+    <button class="sheet-option" onclick="addToPlaylist()">
+      <i class="bi bi-music-note-list"></i> Añadir a playlist
+    </button>
+    <button class="sheet-option" id="likeSheetBtn" onclick="toggleLike()">
+      <i class="bi bi-hand-thumbs-up"></i> Me gusta
+    </button>
+    <button class="sheet-option" onclick="toggleFavorite()">
+      <i class="bi bi-heart-fill"></i> Añadir a favoritos
+    </button>
+    <button class="sheet-option" onclick="shareSong()">
+      <i class="bi bi-share-fill"></i> Compartir
+    </button>
+    <button class="sheet-option" onclick="closeSheet()">
+      <i class="bi bi-x-circle"></i> Cancelar
+    </button>
   </div>
 </div>
 
@@ -510,7 +524,6 @@ body {
 </nav>
 
 <script type="module">
-// ── Tus imports originales intactos ─────────────────────────────────────────
 import { supabase }          from '../assets/js/supabase.js';
 import backgroundPlayer      from '../assets/js/backgroundPlayer.js';
 import { getUserPlaylists, createPlaylist, addSongToPlaylist } from '../assets/js/metrics.js';
@@ -519,8 +532,9 @@ let songs         = [];
 let filtered      = [];
 let currentSong   = null;
 let userPlaylists = [];
+let likedSongs    = new Set(); // IDs de canciones con like del usuario
 
-// ── DOM refs ─────────────────────────────────────────────────────────────────
+// ── DOM refs ──────────────────────────────────────────────────────────────────
 const miniPlayer       = document.getElementById('miniPlayer');
 const miniThumb        = document.getElementById('miniThumb');
 const miniTitleEl      = document.getElementById('miniTitle');
@@ -545,64 +559,74 @@ function updateMiniPlayer(state) {
     miniPlayPauseBtn.querySelector('i').className =
       state.isPlaying ? 'bi bi-pause-fill' : 'bi bi-play-fill';
 
-    const percent = state.duration ? (state.currentTime / state.duration) * 100 : 0;
-    miniProgressFill.style.width = `${percent}%`;
+    const pct = state.duration ? (state.currentTime / state.duration) * 100 : 0;
+    miniProgressFill.style.width = `${pct}%`;
+
+    // Marcar card "now playing"
+    updateNowPlayingBadge(state.currentSong.id);
   } else {
     miniPlayer.classList.remove('active');
     document.body.classList.remove('mini-player-active');
+    updateNowPlayingBadge(null);
   }
 }
 
 backgroundPlayer.addListener(updateMiniPlayer);
+
+// Sincronizar con estado actual (si venimos de play.html con segundo plano activo)
 updateMiniPlayer(backgroundPlayer.getState());
 
-// ── FIX: exponer openFullPlayer en window para que funcione desde el HTML ────
-// (los módulos ES tienen scope privado; onclick="" necesita window.*)
+// Exponer en window → necesario porque los onclick="" del HTML no ven el scope del módulo
 window.openFullPlayer = function () {
-  if (backgroundPlayer.currentSong) {
+  if (backgroundPlayer.currentSong)
     window.location.href = `play.html?id=${backgroundPlayer.currentSong.id}`;
-  }
 };
 
-// Tap en thumb e info del mini player → reproductor completo
 miniThumb.addEventListener('click', window.openFullPlayer);
 miniInfo.addEventListener('click',  window.openFullPlayer);
 
-// Controles del mini player
-miniPlayPauseBtn.addEventListener('click', e => {
-  e.stopPropagation();
-  backgroundPlayer.togglePlayPause();
-});
-
+miniPlayPauseBtn.addEventListener('click', e => { e.stopPropagation(); backgroundPlayer.togglePlayPause(); });
 miniCloseBtn.addEventListener('click', e => {
   e.stopPropagation();
   backgroundPlayer.pause();
   miniPlayer.classList.remove('active');
   document.body.classList.remove('mini-player-active');
+  updateNowPlayingBadge(null);
 });
+miniPrevBtn.addEventListener('click', e => { e.stopPropagation(); playPrev(); });
+miniNextBtn.addEventListener('click', e => { e.stopPropagation(); playNext(); });
 
-miniPrevBtn.addEventListener('click', e => { e.stopPropagation(); playPreviousSong(); });
-miniNextBtn.addEventListener('click', e => { e.stopPropagation(); playNextSong(); });
+// ── Badge "now playing" en la card ────────────────────────────────────────────
+function updateNowPlayingBadge(songId) {
+  document.querySelectorAll('.now-playing-badge').forEach(b => b.classList.remove('visible'));
+  if (songId) {
+    const badge = document.querySelector(`.now-playing-badge[data-id="${songId}"]`);
+    if (badge) badge.classList.add('visible');
+  }
+}
 
-// ── Navegación prev / next ────────────────────────────────────────────────────
+// ── Prev / Next ───────────────────────────────────────────────────────────────
 function getCurrentIndex() {
   if (!backgroundPlayer.currentSong) return -1;
   return songs.findIndex(s => s.id === backgroundPlayer.currentSong.id);
 }
 
-window.playPreviousSong = function () {
+function playPrev() {
   if (!songs.length) return;
   const i = getCurrentIndex();
   backgroundPlayer.loadSong(songs[i > 0 ? i - 1 : songs.length - 1]);
   backgroundPlayer.play();
-};
+}
 
-window.playNextSong = function () {
+function playNext() {
   if (!songs.length) return;
   const i = getCurrentIndex();
   backgroundPlayer.loadSong(songs[(i + 1) % songs.length]);
   backgroundPlayer.play();
-};
+}
+
+window.playPreviousSong = playPrev;
+window.playNextSong     = playNext;
 
 // ── Cargar canciones ──────────────────────────────────────────────────────────
 async function loadSongs() {
@@ -618,6 +642,19 @@ async function loadSongs() {
   if (error) { Swal.fire('Error', error.message, 'error'); return; }
 
   songs = filtered = data || [];
+
+  // Cargar likes del usuario
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: likesData } = await supabase
+        .from('likes')
+        .select('song_id')
+        .eq('user_id', user.id);
+      likedSongs = new Set((likesData || []).map(l => l.song_id));
+    }
+  } catch (_) {}
+
   render();
 }
 
@@ -632,9 +669,12 @@ function render() {
   if (!filtered.length) { empty.style.display = 'block'; return; }
   empty.style.display = 'none';
 
+  const currentId = backgroundPlayer.currentSong?.id;
+
   filtered.forEach(song => {
     const artist   = song.artists?.name || 'Artista Desconocido';
     const hasVideo = !!song.video_url;
+    const isNowPlaying = song.id === currentId;
 
     const col = document.createElement('div');
     col.className = 'col-6 col-md-4 col-lg-3';
@@ -642,9 +682,17 @@ function render() {
       <div class="song-card" onclick="openSheet('${song.id}')">
         <div class="thumbnail">
           <img src="${song.thumbnail_url}" alt="${song.titulo}" loading="lazy">
-          <button class="options-btn" onclick="event.stopPropagation(); openSheet('${song.id}')">
+
+          <!-- Badge "reproduciendo ahora" -->
+          <div class="now-playing-badge ${isNowPlaying ? 'visible' : ''}" data-id="${song.id}">
+            <i class="bi bi-music-note-beamed"></i>
+          </div>
+
+          <button class="options-btn"
+                  onclick="event.stopPropagation(); openSheet('${song.id}')">
             <i class="bi bi-three-dots-vertical"></i>
           </button>
+
           <span class="media-badge ${hasVideo ? 'video' : ''}">
             <i class="bi ${hasVideo ? 'bi-camera-video' : 'bi-music-note'}"></i>
             ${hasVideo ? 'Video' : 'Audio'}
@@ -669,6 +717,13 @@ window.openSheet = function (songId) {
   document.getElementById('sheetArtist').textContent = currentSong.artists?.name || 'Artista Desconocido';
   document.getElementById('videoBtn').style.display  = currentSong.video_url ? 'flex' : 'none';
 
+  // Actualizar botón like
+  const likeBtn = document.getElementById('likeSheetBtn');
+  const isLiked = likedSongs.has(currentSong.id);
+  likeBtn.classList.toggle('liked', isLiked);
+  likeBtn.querySelector('i').className = isLiked ? 'bi bi-hand-thumbs-up-fill' : 'bi bi-hand-thumbs-up';
+  likeBtn.childNodes[1].textContent = isLiked ? ' Quitar me gusta' : ' Me gusta';
+
   document.getElementById('overlay').classList.add('active');
   document.getElementById('sheet').classList.add('active');
 };
@@ -681,10 +736,9 @@ window.closeSheet = function () {
 // ── Segundo plano ─────────────────────────────────────────────────────────────
 window.playInBackground = async function () {
   if (!currentSong) return;
-
   try { await supabase.from('views').insert({ song_id: currentSong.id }); } catch (_) {}
 
-  await backgroundPlayer.loadSong(currentSong);
+  backgroundPlayer.loadSong(currentSong);
   backgroundPlayer.play();
 
   Swal.fire({
@@ -694,17 +748,57 @@ window.playInBackground = async function () {
   closeSheet();
 };
 
-// ── Reproductor completo ──────────────────────────────────────────────────────
+// ── Abrir play.html  (el audio sigue en segundo plano si ya estaba) ────────────
 window.play = async function (mode) {
   if (!currentSong) return;
   try { await supabase.from('views').insert({ song_id: currentSong.id }); } catch (_) {}
+
+  // Si hay algo sonando en segundo plano y es otra canción, cargamos la nueva
+  // pero sin interrumpir si es la misma
+  if (!backgroundPlayer.currentSong || backgroundPlayer.currentSong.id !== currentSong.id) {
+    backgroundPlayer.loadSong(currentSong);
+    // NO llamamos play() aquí → play.html lo hará al cargar
+  }
+
   window.location.href = mode === 'video'
     ? `play.html?id=${currentSong.id}&mode=video`
     : `play.html?id=${currentSong.id}`;
 };
 
+// ── Like ──────────────────────────────────────────────────────────────────────
+window.toggleLike = async function () {
+  if (!currentSong) return;
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { Swal.fire('Error', 'Debes iniciar sesión', 'error'); return; }
+
+    const isLiked = likedSongs.has(currentSong.id);
+    if (isLiked) {
+      await supabase.from('likes').delete()
+        .eq('user_id', user.id).eq('song_id', currentSong.id);
+      likedSongs.delete(currentSong.id);
+    } else {
+      await supabase.from('likes').upsert({ user_id: user.id, song_id: currentSong.id });
+      likedSongs.add(currentSong.id);
+    }
+
+    // Actualizar botón en el sheet
+    const likeBtn = document.getElementById('likeSheetBtn');
+    const nowLiked = likedSongs.has(currentSong.id);
+    likeBtn.classList.toggle('liked', nowLiked);
+    likeBtn.querySelector('i').className = nowLiked ? 'bi bi-hand-thumbs-up-fill' : 'bi bi-hand-thumbs-up';
+    likeBtn.childNodes[1].textContent = nowLiked ? ' Quitar me gusta' : ' Me gusta';
+
+    Swal.fire({
+      icon: 'success',
+      title: nowLiked ? '👍 ¡Te gustó!' : '👎 Me gusta quitado',
+      toast: true, position: 'top-end', showConfirmButton: false, timer: 1500
+    });
+  } catch (err) { Swal.fire('Error', err.message, 'error'); }
+};
+
 // ── Favoritos ─────────────────────────────────────────────────────────────────
-window.favorite = async function () {
+window.toggleFavorite = async function () {
   if (!currentSong) return;
   try {
     const { data: { user } } = await supabase.auth.getUser();
@@ -719,7 +813,7 @@ window.favorite = async function () {
 };
 
 // ── Compartir ─────────────────────────────────────────────────────────────────
-window.share = async function () {
+window.shareSong = async function () {
   if (!currentSong) return;
   if (navigator.share) {
     try {
@@ -728,13 +822,15 @@ window.share = async function () {
     } catch (_) {}
   } else {
     await navigator.clipboard.writeText(window.location.href);
-    Swal.fire({
-      icon: 'success', title: 'Enlace copiado',
-      toast: true, position: 'top-end', showConfirmButton: false, timer: 2000
-    });
+    Swal.fire({ icon: 'success', title: 'Enlace copiado',
+      toast: true, position: 'top-end', showConfirmButton: false, timer: 2000 });
   }
   closeSheet();
 };
+
+// Alias para el HTML legado
+window.favorite = window.toggleFavorite;
+window.share    = window.shareSong;
 
 // ── Playlists ─────────────────────────────────────────────────────────────────
 const playlistModal    = document.getElementById('playlistModal');
@@ -748,8 +844,7 @@ window.addToPlaylist = function () {
 };
 
 document.getElementById('closePlaylistModal').addEventListener('click', () => {
-  playlistModal.classList.remove('active');
-  newPlaylistInput.value = '';
+  playlistModal.classList.remove('active'); newPlaylistInput.value = '';
 });
 playlistModal.addEventListener('click', e => {
   if (e.target === playlistModal) { playlistModal.classList.remove('active'); newPlaylistInput.value = ''; }
@@ -762,11 +857,7 @@ async function loadUserPlaylists() {
 
 function renderPlaylists() {
   if (!userPlaylists.length) {
-    playlistsList.innerHTML = `
-      <div class="empty-playlists">
-        <i class="bi bi-music-note-list"></i>
-        <p>No tienes playlists aún</p>
-      </div>`;
+    playlistsList.innerHTML = `<div class="empty-playlists"><i class="bi bi-music-note-list"></i><p>No tienes playlists aún</p></div>`;
     return;
   }
   playlistsList.innerHTML = userPlaylists.map(pl => `
@@ -784,33 +875,23 @@ document.getElementById('createPlaylistBtn').addEventListener('click', async () 
   if (!nombre) { Swal.fire('Error', 'Escribe un nombre para la playlist', 'error'); return; }
   try {
     await createPlaylist(nombre);
-    Swal.fire({
-      icon: 'success', title: '¡Playlist creada!',
-      toast: true, position: 'top-end', showConfirmButton: false, timer: 2000
-    });
+    Swal.fire({ icon: 'success', title: '¡Playlist creada!',
+      toast: true, position: 'top-end', showConfirmButton: false, timer: 2000 });
     newPlaylistInput.value = '';
     await loadUserPlaylists();
-  } catch (err) {
-    console.error('Error creando playlist:', err);
-    Swal.fire('Error', 'No se pudo crear la playlist', 'error');
-  }
+  } catch (_) { Swal.fire('Error', 'No se pudo crear la playlist', 'error'); }
 });
 
 window.addToPlaylistHandler = async function (playlistId) {
   try {
     await addSongToPlaylist(playlistId, currentSong.id);
     playlistModal.classList.remove('active');
-    Swal.fire({
-      icon: 'success', title: '¡Añadida a la playlist!',
-      toast: true, position: 'top-end', showConfirmButton: false, timer: 2000
-    });
+    Swal.fire({ icon: 'success', title: '¡Añadida a la playlist!',
+      toast: true, position: 'top-end', showConfirmButton: false, timer: 2000 });
   } catch (err) {
-    if (err.message?.includes('duplicate')) {
-      Swal.fire({ icon: 'info', title: 'Ya está en esta playlist',
-        toast: true, position: 'top-end', showConfirmButton: false, timer: 2000 });
-    } else {
-      Swal.fire('Error', 'No se pudo añadir a la playlist', 'error');
-    }
+    Swal.fire(err.message?.includes('duplicate')
+      ? { icon: 'info', title: 'Ya está en esta playlist', toast: true, position: 'top-end', showConfirmButton: false, timer: 2000 }
+      : 'Error');
   }
 };
 
@@ -818,7 +899,7 @@ newPlaylistInput.addEventListener('keypress', e => {
   if (e.key === 'Enter') document.getElementById('createPlaylistBtn').click();
 });
 
-// ── Búsqueda ──────────────────────────────────────────────────────────────────
+// ── Búsqueda + filtros ────────────────────────────────────────────────────────
 document.getElementById('search').addEventListener('input', e => {
   const q = e.target.value.toLowerCase();
   filtered = songs.filter(s =>
@@ -828,7 +909,6 @@ document.getElementById('search').addEventListener('input', e => {
   render();
 });
 
-// ── Filtros ───────────────────────────────────────────────────────────────────
 document.getElementById('filters').addEventListener('click', e => {
   const chip = e.target.closest('.filter-chip');
   if (!chip) return;
@@ -841,7 +921,7 @@ document.getElementById('filters').addEventListener('click', e => {
   render();
 });
 
-// ── Iniciar ───────────────────────────────────────────────────────────────────
+// ── Arrancar ──────────────────────────────────────────────────────────────────
 loadSongs();
 </script>
 
