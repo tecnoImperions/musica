@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Varian Music | Descubre tu sonido</title>
+
+<!-- PWA -->
+<link rel="manifest" href="public/manifest.json">
+<meta name="theme-color" content="#0f0f1a">
 
 <!-- META SOCIAL -->
 <meta property="og:title" content="Varian Music">
@@ -54,27 +59,20 @@ body {
 
 /* HERO */
 .hero {
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   align-items: center;
-  position: relative;
-}
-
-.hero-content {
-  z-index: 2;
 }
 
 .hero h1 {
-  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 800;
-  line-height: 1.2;
 }
 
 .hero p {
   color: var(--text-secondary);
   font-size: 1.1rem;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin: 1rem 0 2rem;
 }
 
 .btn-primary-custom {
@@ -97,15 +95,8 @@ body {
   border-radius: 12px;
   font-weight: 600;
   color: var(--text-primary);
-  transition: 0.3s;
 }
 
-.btn-outline-custom:hover {
-  background: var(--bg-secondary);
-  border-color: var(--accent);
-}
-
-/* HERO IMAGE */
 .hero-img {
   max-width: 100%;
   border-radius: 24px;
@@ -114,9 +105,7 @@ body {
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
   50% { transform: translateY(-15px); }
-  100% { transform: translateY(0px); }
 }
 
 /* FEATURES */
@@ -145,19 +134,16 @@ body {
   margin-bottom: 1rem;
 }
 
-/* FOOTER */
+/* INSTALL BUTTON */
+#installBtn {
+  display: none;
+}
+
 footer {
   padding: 2rem 0;
   border-top: 1px solid var(--border);
   text-align: center;
   color: var(--text-secondary);
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2.2rem;
-  }
 }
 </style>
 </head>
@@ -165,40 +151,52 @@ footer {
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-custom py-3">
-  <div class="container">
-    <span class="brand"><i class="bi bi-music-note-beamed"></i> Varian</span>
-    <div>
-      <a href="login.html" class="btn btn-outline-custom me-2">Iniciar sesión</a>
-      <a href="register.html" class="btn btn-primary-custom">Registrarse</a>
+  <div class="container d-flex justify-content-between">
+    <span class="brand">
+      <i class="bi bi-music-note-beamed"></i> Varian
+    </span>
+
+    <div class="d-flex gap-2 flex-wrap">
+      <button id="installBtn" class="btn btn-primary-custom">
+        <i class="bi bi-download"></i> Instalar App
+      </button>
+
+      <a href="login.html" class="btn btn-outline-custom">
+        Iniciar sesión
+      </a>
+
+      <a href="register.html" class="btn btn-primary-custom">
+        Registrarse
+      </a>
     </div>
   </div>
 </nav>
 
 <section class="hero container">
-  <div class="row align-items-center w-100">
-    <div class="col-lg-6 hero-content">
+  <div class="row align-items-center w-100 gy-4">
+    <div class="col-lg-6">
       <h1>Descubre música sin límites</h1>
       <p>
         Varian es tu nueva experiencia musical moderna.
-        Reproduce audio y video con un diseño elegante y rápido.
+        Reproduce audio y video con velocidad,
+        modo offline y diseño elegante.
       </p>
 
       <div class="d-flex gap-3 flex-wrap">
         <a href="register.html" class="btn btn-primary-custom">
-          <i class="bi bi-person-plus-fill"></i> Crear cuenta
+          Crear cuenta
         </a>
         <a href="login.html" class="btn btn-outline-custom">
-          <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+          Iniciar sesión
         </a>
       </div>
     </div>
 
-    <div class="col-lg-6 text-center mt-5 mt-lg-0">
+    <div class="col-lg-6 text-center">
       <img 
-        src="https://res.cloudinary.com/duwvw6q2c/image/upload/v1765742101/varian_lbd26r.webp" 
+        src="https://res.cloudinary.com/duwvw6q2c/image/upload/v1765742101/varian_lbd26r.webp"
         class="hero-img img-fluid"
-        alt="Varian Music"
-      >
+        alt="Varian Music">
     </div>
   </div>
 </section>
@@ -207,31 +205,39 @@ footer {
   <div class="container">
     <div class="row text-center mb-5">
       <h2 class="fw-bold">¿Por qué elegir Varian?</h2>
-      <p class="text-secondary">Diseño moderno, rápido y enfocado en experiencia.</p>
+      <p class="text-secondary">
+        Música moderna con tecnología PWA.
+      </p>
     </div>
 
     <div class="row g-4">
       <div class="col-md-4">
         <div class="feature-card">
           <i class="bi bi-lightning-charge-fill"></i>
-          <h5>Rápido</h5>
-          <p class="text-secondary">Carga optimizada con Supabase y Cloudinary.</p>
+          <h5>Ultra rápido</h5>
+          <p class="text-secondary">
+            Carga instantánea con caché offline.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card">
+          <i class="bi bi-wifi-off"></i>
+          <h5>Modo offline</h5>
+          <p class="text-secondary">
+            Funciona incluso sin internet.
+          </p>
         </div>
       </div>
 
       <div class="col-md-4">
         <div class="feature-card">
           <i class="bi bi-phone-fill"></i>
-          <h5>Responsive</h5>
-          <p class="text-secondary">Funciona perfecto en móvil y escritorio.</p>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="feature-card">
-          <i class="bi bi-shield-lock-fill"></i>
-          <h5>Seguro</h5>
-          <p class="text-secondary">Autenticación integrada y protegida.</p>
+          <h5>Instalable</h5>
+          <p class="text-secondary">
+            Instala Varian como app nativa.
+          </p>
         </div>
       </div>
     </div>
@@ -241,6 +247,31 @@ footer {
 <footer>
   © 2026 Varian Music — Todos los derechos reservados
 </footer>
+
+<script>
+// Registrar Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/public/sw.js');
+}
+
+// Instalación PWA
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'inline-block';
+});
+
+installBtn.addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt = null;
+    installBtn.style.display = 'none';
+  }
+});
+</script>
 
 </body>
 </html>
